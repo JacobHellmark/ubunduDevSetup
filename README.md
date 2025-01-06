@@ -93,7 +93,10 @@ unbind C-b
 set -g prefix C-Space
 bind C-Space send-prefix
 
+# Enable mouse support
 set -g mouse on
+
+# Mouse wheel bindings for scrolling in copy mode
 bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
 bind -n WheelDownPane select-pane -t= \; send-keys -M
 bind -n C-WheelUpPane select-pane -t= \; copy-mode -e \; send-keys -M
@@ -102,11 +105,13 @@ bind -T copy-mode-vi    C-WheelDownPane send-keys -X halfpage-down
 bind -T copy-mode-emacs C-WheelUpPane   send-keys -X halfpage-up
 bind -T copy-mode-emacs C-WheelDownPane send-keys -X halfpage-down
 
-# To copy, left click and drag to highlight text in yellow,
-# once you release left click yellow text will disappear and will automatically be available in clipboard
+# Use vim keybindings in copy mode
 setw -g mode-keys vi
+
+# Bind 'y' to copy selection to clipboard using xclip
 unbind -T copy-mode-vi Enter
 bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -selection c"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -in -selection clipboard"
 ```
 
 ---
